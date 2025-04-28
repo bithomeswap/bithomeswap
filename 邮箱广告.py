@@ -42,7 +42,7 @@ class Mail:
             message,
             self.excel_file_path,
             "vnd.openxmlformats-officedocument.spreadsheetml.sheet",
-            "发送显示文件名.xlsx"
+            str(self.excel_file_path)#文件名
         )
         # 添加图片附件（如果存在）
         self._add_attachment(
@@ -69,13 +69,17 @@ class Mail:
 import pandas as pd
 df=pd.read_csv("天眼查河北教育邮箱.csv")
 for index,thisdf in df.iterrows():
+  thismail=thisdf["邮箱列表"]
+  con=thisdf["省份"]
+  city=thisdf["城市"]
+  name=thisdf["公司简称"]
   mailer1 = Mail(
       sender_email="19511189162@163.com",
-      receiver_email="19511189162@163.com",
+      receiver_email=thismail,
       password="QDTSX5aUM26Z2Qnw",
       subject="主题-合作洽谈",
       body=("问候"
-            "\n你好"
+            f"\n{con}{city}{name}您好"
             "\n我叫王腾鹤，高中衡中实验班（高三班主任郭春雨现任衡中校长），本科河北工业大学，本职业工作在一家北京的留学机构，教授本科和研究生阶段学生数据分析和金融工程，目前个人在做高考志愿填报，以下资料请您斧正，希望跟你建立联系共同发展合作，微信：lianghuajiaoyi123456"),
       excel_file_path="./高考志愿参考资料.pdf",  # 存在的文件路径
   )
